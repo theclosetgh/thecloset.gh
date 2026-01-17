@@ -6,178 +6,218 @@
   <title>THE CLOSET</title>
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
-    body {
+    body{
       font-family: Arial, sans-serif;
-      background: #f8f8f8;
-      color: #333;
+      background:#f8f8f8;
+      color:#111;
+      line-height: 1.4;
     }
 
     /* Header */
-    header {
-      background: #000;
-      color: #fff;
-      padding: 20px 0;
-      text-align: center;
+    header{
+      background:#000;
+      color:#fff;
+      padding: 18px 0;
+      text-align:center;
       position: sticky;
-      top: 0;
+      top:0;
       z-index: 1000;
+      box-shadow: 0 6px 18px rgba(0,0,0,.15);
     }
-
-    header h1 {
-      letter-spacing: 3px;
-      font-size: 2rem;
+    header h1{
+      letter-spacing: 4px;
+      font-size: 1.9rem;
+      margin-bottom: 8px;
     }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: bold;
+    nav{
+      display:flex;
+      gap: 18px;
+      justify-content:center;
+      flex-wrap: wrap;
     }
-
-    nav a:hover {
-      color: #ff4081;
+    nav a{
+      color:#fff;
+      text-decoration:none;
+      font-weight: 700;
+      font-size: .95rem;
+      opacity: .95;
     }
+    nav a:hover{ color:#ff4081; }
 
     /* Hero */
-    .hero {
-      width: 100%;
-      height: 100vh;
-      background: url('home.jpg') no-repeat center center / contain;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      text-align: center;
-      color: #fff;
+    .hero{
+      min-height: 90vh;
+      background: url("home.jpg") no-repeat center center / cover;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      text-align:center;
+      color:#fff;
+      padding: 60px 16px;
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.55) 0%,
+        rgba(0,0,0,.55) 45%,
+        rgba(0,0,0,.65) 100%
+      );
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width: 900px;
     }
-
-    .hero h2 {
-      font-size: 3rem;
-      margin-bottom: 20px;
+    .hero h2{
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
     }
-
-    .hero button {
-      background: #ff4081;
-      border: none;
-      color: #fff;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      cursor: pointer;
+    .hero p{
+      margin: 0 auto 22px;
+      max-width: 620px;
+      color: rgba(255,255,255,.92);
+      font-size: 1.05rem;
     }
+    .hero button{
+      background:#ff4081;
+      border:none;
+      color:#fff;
+      padding: 14px 26px;
+      font-size: 1.05rem;
+      cursor:pointer;
+      border-radius: 10px;
+      font-weight: 800;
+      box-shadow: 0 10px 20px rgba(255,64,129,.25);
+      transition: transform .12s ease, opacity .12s ease;
+    }
+    .hero button:hover{ transform: translateY(-1px); opacity:.95; }
 
     /* Sections */
-    section {
-      padding: 50px 20px;
+    section{
+      padding: 56px 18px;
       max-width: 1200px;
       margin: auto;
     }
-
-    section h2 {
-      text-align: center;
+    section h2{
+      text-align:center;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    .section-sub{
+      text-align:center;
+      color:#666;
       margin-bottom: 30px;
+      font-size: .98rem;
     }
 
     /* Products */
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
+    .products{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+    .product{
+      background:#fff;
+      border-radius: 14px;
+      overflow:hidden;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08);
+      border: 1px solid rgba(0,0,0,.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .product:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(0,0,0,.10);
     }
 
-    .product {
-      background: #fff;
+    /* Image area */
+    .product .imgwrap{
+      width:100%;
+      aspect-ratio: 4 / 5;
+      background:#f2f2f2;
+      overflow:hidden;
+    }
+    .product img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .product-content{
+      padding: 14px 14px 16px;
+      text-align:center;
+    }
+    .product-content h3{
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      letter-spacing: .5px;
+    }
+    .product-content p{
+      font-size: .92rem;
+      color:#666;
+      margin-bottom: 10px;
+    }
+    .price{
+      color:#ff4081;
+      font-weight: 900;
+      margin: 6px 0 12px;
+      font-size: 1.05rem;
+    }
+
+    .whatsapp-btn{
+      display:inline-block;
+      background:#25D366;
+      color:#fff;
+      padding: 11px 18px;
+      text-decoration:none;
       border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      font-weight: 900;
+      font-size: .95rem;
+      transition: opacity .12s ease, transform .12s ease;
     }
-
-    .product img {
-      width: 100%;
-      height: 300px;
-      object-fit: contain;
-      background: #fff;
-    }
-
-    .product-content {
-      padding: 15px;
-      text-align: center;
-    }
-
-    .product-content h3 {
-      margin-bottom: 5px;
-    }
-
-    .product-content p {
-      font-size: 0.95rem;
-      color: #666;
-    }
-
-    .price {
-      color: #ff4081;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    .whatsapp-btn {
-      display: inline-block;
-      margin-top: 10px;
-      background: #25D366;
-      color: #fff;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
+    .whatsapp-btn:hover{ opacity:.95; transform: translateY(-1px); }
 
     /* Contact */
-    .contact {
-      text-align: center;
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    #contact .contact{
+      text-align:center;
+      background:#fff;
+      padding: 26px 18px;
+      border-radius: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+      border: 1px solid rgba(0,0,0,.06);
+      max-width: 720px;
+      margin: 0 auto;
     }
-
-    .contact a {
-      display: block;
+    #contact .contact a{
+      display:block;
       margin-top: 10px;
-      text-decoration: none;
-      color: #000;
-      font-weight: bold;
+      text-decoration:none;
+      color:#000;
+      font-weight: 800;
     }
+    #contact .contact a:hover{ color:#ff4081; }
 
     /* Footer */
-    footer {
-      background: #000;
-      color: #fff;
-      text-align: center;
+    footer{
+      background:#000;
+      color:#fff;
+      text-align:center;
       padding: 20px;
       margin-top: 40px;
     }
 
-    @media (max-width: 768px) {
-      .hero h2 {
-        font-size: 2rem;
-      }
+    @media (max-width: 768px){
+      header h1{ font-size: 1.6rem; }
+      nav a{ margin: 0 6px; }
     }
   </style>
 </head>
@@ -197,43 +237,138 @@
   <!-- Hero -->
   <section id="home" class="hero">
     <div class="hero-content">
-      <h2>Welcome to THE CLOSET</h2>
+      <h2>Premium Tops. Clean Fit.</h2>
+      <p>Browse available pieces and order instantly via WhatsApp.</p>
       <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
     </div>
   </section>
 
   <!-- Shop -->
   <section id="shop">
-    <h2>Available Dresses</h2>
+    <h2>Available Tops</h2>
+    <div class="section-sub">Tap “WhatsApp to Buy” to order (name, size, and price will be included automatically).</div>
 
     <div class="products">
 
-      <!-- DRESS 1 -->
-      <div class="product">
-        <img src="dress1.jpg" alt="Dress 1">
+      <div class="product" data-name="UTOPIA TOP" data-size="M/L/XL" data-price="120">
+        <div class="imgwrap"><img src="dress1.jpg" alt="UTOPIA TOP"></div>
         <div class="product-content">
-          <h3>UTOPIA TOP </h3>
+          <h3>UTOPIA TOP</h3>
           <p>M/L/XL</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank"
-             href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">
-             WhatsApp to Buy
-          </a>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
         </div>
       </div>
 
-      <!-- DRESS 2 -->
-      <div class="product"><img src="dress2.jpg" alt="Dress 2"><div class="product-content"><h3>ZARA TOP</h3><p>L/XL</p><div class="price">GHC 120</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress3.jpg" alt="Dress 3"><div class="product-content"><h3>HELLSTAR</h3><p>L/XL</p><div class="price">GHC 100</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress4.jpg" alt="Dress 4"><div class="product-content"><h3>MC LAREN TOP</h3><p>L/XL</p><div class="price">GHC 100</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress5.jpg" alt="Dress 5"><div class="product-content"><h3>JACK AND CACTUS TOP</h3><p>XL</p><div class="price">GHC 130</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress6.jpg" alt="Dress 6"><div class="product-content"><h3>HELLSTAR</h3><p>XL</p><div class="price">GHC 120</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress7.jpg" alt="Dress 7"><div class="product-content"><h3>UTOPIA</h3><p>L/XL</p><div class="price">GHC 130</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress8.jpg" alt="Dress 8"><div class="product-content"><h3>UTOPIA</h3><p>M/L</p><div class="price">GHC 130</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress9.jpg" alt="Dress 9"><div class="product-content"><h3>UTOPIA</h3><p>M/L/XL</p><div class="price">GHC 130</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress10.jpg" alt="Dress 10"><div class="product-content"><h3>UTOPIA</h3><p>L/XL</p><div class="price">GHC 130</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress11.jpg" alt="Dress 11"><div class="product-content"><h3>PALM ANGELS TOP</h3><p>XL</p><div class="price">GHC 120</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
-      <div class="product"><img src="dress12.jpg" alt="Dress 12"><div class="product-content"><h3>BILLONAIR BOYSCLUB TOP</h3><p>L</p><div class="price">GHC 120</div><a class="whatsapp-btn" target="_blank" href="https://wa.me/233503674353?text=Hello%20THE%20CLOSET,%20I%20am%20interested%20in%20this%20dress%20priced%20at%20GHC%20120.">WhatsApp to Buy</a></div></div>
+      <div class="product" data-name="ZARA TOP" data-size="L/XL" data-price="120">
+        <div class="imgwrap"><img src="dress2.jpg" alt="ZARA TOP"></div>
+        <div class="product-content">
+          <h3>ZARA TOP</h3>
+          <p>L/XL</p>
+          <div class="price">GHC 120</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="HELLSTAR" data-size="L/XL" data-price="100">
+        <div class="imgwrap"><img src="dress3.jpg" alt="HELLSTAR"></div>
+        <div class="product-content">
+          <h3>HELLSTAR</h3>
+          <p>L/XL</p>
+          <div class="price">GHC 100</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="MC LAREN TOP" data-size="L/XL" data-price="100">
+        <div class="imgwrap"><img src="dress4.jpg" alt="MC LAREN TOP"></div>
+        <div class="product-content">
+          <h3>MC LAREN TOP</h3>
+          <p>L/XL</p>
+          <div class="price">GHC 100</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="JACK AND CACTUS TOP" data-size="XL" data-price="130">
+        <div class="imgwrap"><img src="dress5.jpg" alt="JACK AND CACTUS TOP"></div>
+        <div class="product-content">
+          <h3>JACK AND CACTUS TOP</h3>
+          <p>XL</p>
+          <div class="price">GHC 130</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="HELLSTAR" data-size="XL" data-price="120">
+        <div class="imgwrap"><img src="dress6.jpg" alt="HELLSTAR"></div>
+        <div class="product-content">
+          <h3>HELLSTAR</h3>
+          <p>XL</p>
+          <div class="price">GHC 120</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="UTOPIA" data-size="L/XL" data-price="130">
+        <div class="imgwrap"><img src="dress7.jpg" alt="UTOPIA"></div>
+        <div class="product-content">
+          <h3>UTOPIA</h3>
+          <p>L/XL</p>
+          <div class="price">GHC 130</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="UTOPIA" data-size="M/L" data-price="130">
+        <div class="imgwrap"><img src="dress8.jpg" alt="UTOPIA"></div>
+        <div class="product-content">
+          <h3>UTOPIA</h3>
+          <p>M/L</p>
+          <div class="price">GHC 130</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="UTOPIA" data-size="M/L/XL" data-price="130">
+        <div class="imgwrap"><img src="dress9.jpg" alt="UTOPIA"></div>
+        <div class="product-content">
+          <h3>UTOPIA</h3>
+          <p>M/L/XL</p>
+          <div class="price">GHC 130</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="UTOPIA" data-size="L/XL" data-price="130">
+        <div class="imgwrap"><img src="dress10.jpg" alt="UTOPIA"></div>
+        <div class="product-content">
+          <h3>UTOPIA</h3>
+          <p>L/XL</p>
+          <div class="price">GHC 130</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="PALM ANGELS TOP" data-size="XL" data-price="120">
+        <div class="imgwrap"><img src="dress11.jpg" alt="PALM ANGELS TOP"></div>
+        <div class="product-content">
+          <h3>PALM ANGELS TOP</h3>
+          <p>XL</p>
+          <div class="price">GHC 120</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
+
+      <div class="product" data-name="BILLIONAIRE BOYS CLUB TOP" data-size="L" data-price="120">
+        <div class="imgwrap"><img src="dress12.jpg" alt="BILLIONAIRE BOYS CLUB TOP"></div>
+        <div class="product-content">
+          <h3>BILLIONAIRE BOYS CLUB TOP</h3>
+          <p>L</p>
+          <div class="price">GHC 120</div>
+          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -242,16 +377,36 @@
   <section id="contact">
     <h2>Contact</h2>
     <div class="contact">
-      <a href="https://wa.me/233503674353" target="_blank">📱 WhatsApp: 0503674353</a>
-      <a href="https://www.tiktok.com/@the.closetgh" target="_blank">🎵 TikTok: @the.closetgh</a>
+      <a href="https://wa.me/233503674353" target="_blank">WhatsApp: 0503674353</a>
+      <a href="https://www.tiktok.com/@the.closetgh" target="_blank">TikTok: @the.closetgh</a>
     </div>
   </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 THE CLOSET</p>
+    <p>© 2026 THE CLOSET</p>
   </footer>
+
+  <script>
+    // Builds a correct WhatsApp message for each product (no more wrong prices)
+    function waBuy(anchorEl){
+      const card = anchorEl.closest(".product");
+      const name = (card.dataset.name || "Item").trim();
+      const size = (card.dataset.size || "N/A").trim();
+      const price = (card.dataset.price || "").trim();
+
+      const phone = "233503674353";
+      const msg =
+        `Hello THE CLOSET, I am interested in: ${name}. ` +
+        `Size: ${size}. ` +
+        (price ? `Price: GHC ${price}. ` : "") +
+        `Is it available?`;
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      anchorEl.href = url;
+      return true;
+    }
+  </script>
 
 </body>
 </html>
-
