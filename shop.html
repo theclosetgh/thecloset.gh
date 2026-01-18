@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,9 +34,10 @@
     }
     nav{
       display:flex;
-      gap: 18px;
+      gap: 14px;
       justify-content:center;
       flex-wrap: wrap;
+      align-items: center;
     }
     nav a{
       color:#fff;
@@ -47,6 +47,35 @@
       opacity: .95;
     }
     nav a:hover{ color:#ff4081; }
+
+    /* Cart button in nav */
+    .cart-btn{
+      margin-left: 6px;
+      border: 1px solid rgba(255,255,255,.25);
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      transition: transform .12s ease, opacity .12s ease;
+    }
+    .cart-btn:hover{ opacity: .95; transform: translateY(-1px); }
+    .badge{
+      min-width: 22px;
+      height: 22px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background:#ff4081;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size: .8rem;
+      font-weight: 900;
+    }
 
     /* Hero */
     .hero{
@@ -83,7 +112,7 @@
     }
     .hero p{
       margin: 0 auto 22px;
-      max-width: 620px;
+      max-width: 760px;
       color: rgba(255,255,255,.92);
       font-size: 1.05rem;
     }
@@ -120,6 +149,21 @@
       font-size: .98rem;
     }
 
+    /* Info bar */
+    .info-bar{
+      max-width: 980px;
+      margin: 0 auto 26px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+      border-radius: 14px;
+      padding: 16px 16px;
+      color:#222;
+      font-size: .96rem;
+      line-height: 1.5;
+    }
+    .info-bar strong{ font-weight: 900; }
+
     /* Products */
     .products{
       display:grid;
@@ -133,13 +177,14 @@
       box-shadow: 0 10px 24px rgba(0,0,0,.08);
       border: 1px solid rgba(0,0,0,.06);
       transition: transform .12s ease, box-shadow .12s ease;
+      display:flex;
+      flex-direction: column;
     }
     .product:hover{
       transform: translateY(-2px);
       box-shadow: 0 14px 28px rgba(0,0,0,.10);
     }
 
-    /* Image area */
     .product .imgwrap{
       width:100%;
       aspect-ratio: 4 / 5;
@@ -156,36 +201,61 @@
     .product-content{
       padding: 14px 14px 16px;
       text-align:center;
+      display:flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
     }
     .product-content h3{
       font-size: 1.05rem;
-      margin-bottom: 6px;
       letter-spacing: .5px;
     }
     .product-content p{
       font-size: .92rem;
       color:#666;
-      margin-bottom: 10px;
     }
     .price{
       color:#ff4081;
       font-weight: 900;
-      margin: 6px 0 12px;
+      margin-top: 4px;
       font-size: 1.05rem;
     }
 
-    .whatsapp-btn{
+    .actions{
+      display:flex;
+      gap: 10px;
+      justify-content:center;
+      align-items:center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn{
       display:inline-block;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-weight: 900;
+      font-size: .92rem;
+      transition: transform .12s ease, opacity .12s ease;
+      text-decoration: none;
+    }
+    .btn:hover{ opacity:.95; transform: translateY(-1px); }
+
+    .btn-wa{
       background:#25D366;
       color:#fff;
-      padding: 11px 18px;
-      text-decoration:none;
-      border-radius: 10px;
-      font-weight: 900;
-      font-size: .95rem;
-      transition: opacity .12s ease, transform .12s ease;
     }
-    .whatsapp-btn:hover{ opacity:.95; transform: translateY(-1px); }
+    .btn-cart{
+      background:#111;
+      color:#fff;
+    }
+    .btn-cart.outline{
+      background: transparent;
+      color:#111;
+      border: 1px solid rgba(0,0,0,.18);
+    }
 
     /* Contact */
     #contact .contact{
@@ -195,7 +265,7 @@
       border-radius: 14px;
       box-shadow: 0 10px 24px rgba(0,0,0,.06);
       border: 1px solid rgba(0,0,0,.06);
-      max-width: 720px;
+      max-width: 820px;
       margin: 0 auto;
     }
     #contact .contact a{
@@ -204,6 +274,7 @@
       text-decoration:none;
       color:#000;
       font-weight: 800;
+      word-break: break-word;
     }
     #contact .contact a:hover{ color:#ff4081; }
 
@@ -216,9 +287,184 @@
       margin-top: 40px;
     }
 
+    /* Cart Drawer */
+    .overlay{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      z-index: 2000;
+    }
+    .overlay.show{ display:block; }
+
+    .drawer{
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: min(420px, 92vw);
+      background: #fff;
+      z-index: 2100;
+      transform: translateX(110%);
+      transition: transform .18s ease;
+      box-shadow: -10px 0 30px rgba(0,0,0,.18);
+      display:flex;
+      flex-direction: column;
+    }
+    .drawer.show{ transform: translateX(0); }
+
+    .drawer-header{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .drawer-header h3{
+      font-size: 1.1rem;
+      letter-spacing: .5px;
+    }
+    .close-btn{
+      border: 1px solid rgba(0,0,0,.15);
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+
+    .drawer-body{
+      padding: 14px 16px;
+      overflow:auto;
+      flex: 1;
+    }
+
+    .cart-empty{
+      color:#666;
+      text-align:center;
+      padding: 26px 8px;
+    }
+
+    .cart-item{
+      display:flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    .thumb{
+      width: 74px;
+      height: 92px;
+      border-radius: 12px;
+      background:#f2f2f2;
+      overflow:hidden;
+      flex: 0 0 auto;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+    .ci-main{
+      flex: 1;
+      min-width: 0;
+    }
+    .ci-title{
+      font-weight: 900;
+      font-size: .95rem;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .ci-sub{
+      color:#666;
+      font-size: .86rem;
+      margin-bottom: 8px;
+    }
+    .ci-row{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .qty{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      border: 1px solid rgba(0,0,0,.12);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+    .qty button{
+      border: none;
+      background: transparent;
+      cursor:pointer;
+      font-weight: 900;
+      font-size: 1rem;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+    .qty span{
+      min-width: 18px;
+      text-align:center;
+      font-weight: 900;
+    }
+    .ci-price{
+      font-weight: 900;
+      color:#ff4081;
+      font-size: .95rem;
+    }
+    .remove{
+      border: none;
+      background: transparent;
+      cursor:pointer;
+      font-weight: 900;
+      color:#111;
+      opacity: .75;
+    }
+    .remove:hover{ opacity: 1; }
+
+    .drawer-footer{
+      border-top: 1px solid rgba(0,0,0,.08);
+      padding: 14px 16px 16px;
+      background: #fff;
+    }
+    .totals{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 900;
+    }
+    .note{
+      font-size: .88rem;
+      color:#666;
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+    .checkout-row{
+      display:flex;
+      gap: 10px;
+    }
+    .checkout-row .btn{
+      flex: 1;
+      text-align:center;
+    }
+    .btn-secondary{
+      background: #fff;
+      color:#111;
+      border: 1px solid rgba(0,0,0,.18);
+    }
+
     @media (max-width: 768px){
       header h1{ font-size: 1.6rem; }
-      nav a{ margin: 0 6px; }
+      nav a{ margin: 0 4px; }
     }
   </style>
 </head>
@@ -232,6 +478,10 @@
       <a href="#home">HOME</a>
       <a href="#shop">SHOP</a>
       <a href="#contact">CONTACT</a>
+
+      <button class="cart-btn" type="button" onclick="openCart()">
+        CART <span class="badge" id="cartCount">0</span>
+      </button>
     </nav>
   </header>
 
@@ -239,7 +489,10 @@
   <section id="home" class="hero">
     <div class="hero-content">
       <h2>Premium Tops. Clean Fit.</h2>
-      <p>Browse available pieces and order instantly via WhatsApp.</p>
+      <p>
+        Browse available pieces and order instantly via WhatsApp.
+        If you choose delivery, it will be arranged via <strong>Yango</strong> or <strong>Bolt</strong>.
+      </p>
       <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
     </div>
   </section>
@@ -247,127 +500,170 @@
   <!-- Shop -->
   <section id="shop">
     <h2>Available Tops</h2>
-    <div class="section-sub">Tap “WhatsApp to Buy” to order (name, size, and price will be included automatically).</div>
+    <div class="section-sub">
+      Add items to cart, then checkout via WhatsApp. Delivery can be arranged via Yango or Bolt.
+    </div>
+
+    <div class="info-bar">
+      <strong>Delivery:</strong> If you choose delivery, it will be through <strong>Yango</strong> or <strong>Bolt</strong> (delivery fee depends on distance).<br>
+      <strong>WhatsApp Orders:</strong> <strong>0547706620</strong>
+    </div>
 
     <div class="products">
 
-      <div class="product" data-name="UTOPIA TOP" data-size="M/L/XL" data-price="120">
+      <div class="product" data-id="utopia-top-1" data-name="UTOPIA TOP" data-size="M/L/XL" data-price="120" data-image="dress1.jpg">
         <div class="imgwrap"><img src="dress1.jpg" alt="UTOPIA TOP"></div>
         <div class="product-content">
           <h3>UTOPIA TOP</h3>
           <p>M/L/XL</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="ZARA TOP" data-size="L/XL" data-price="120">
+      <div class="product" data-id="zara-top-2" data-name="ZARA TOP" data-size="L/XL" data-price="120" data-image="dress2.jpg">
         <div class="imgwrap"><img src="dress2.jpg" alt="ZARA TOP"></div>
         <div class="product-content">
           <h3>ZARA TOP</h3>
           <p>L/XL</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="HELLSTAR" data-size="L/XL" data-price="100">
+      <div class="product" data-id="hellstar-3" data-name="HELLSTAR" data-size="L/XL" data-price="100" data-image="dress3.jpg">
         <div class="imgwrap"><img src="dress3.jpg" alt="HELLSTAR"></div>
         <div class="product-content">
           <h3>HELLSTAR</h3>
           <p>L/XL</p>
           <div class="price">GHC 100</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="MC LAREN TOP" data-size="L/XL" data-price="100">
+      <div class="product" data-id="mclaren-4" data-name="MC LAREN TOP" data-size="L/XL" data-price="100" data-image="dress4.jpg">
         <div class="imgwrap"><img src="dress4.jpg" alt="MC LAREN TOP"></div>
         <div class="product-content">
           <h3>MC LAREN TOP</h3>
           <p>L/XL</p>
           <div class="price">GHC 100</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="JACK AND CACTUS TOP" data-size="XL" data-price="130">
+      <div class="product" data-id="jack-cactus-5" data-name="JACK AND CACTUS TOP" data-size="XL" data-price="130" data-image="dress5.jpg">
         <div class="imgwrap"><img src="dress5.jpg" alt="JACK AND CACTUS TOP"></div>
         <div class="product-content">
           <h3>JACK AND CACTUS TOP</h3>
           <p>XL</p>
           <div class="price">GHC 130</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="HELLSTAR" data-size="XL" data-price="120">
+      <div class="product" data-id="hellstar-6" data-name="HELLSTAR" data-size="XL" data-price="120" data-image="dress6.jpg">
         <div class="imgwrap"><img src="dress6.jpg" alt="HELLSTAR"></div>
         <div class="product-content">
           <h3>HELLSTAR</h3>
           <p>XL</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="UTOPIA" data-size="L/XL" data-price="130">
+      <div class="product" data-id="utopia-7" data-name="UTOPIA" data-size="L/XL" data-price="130" data-image="dress7.jpg">
         <div class="imgwrap"><img src="dress7.jpg" alt="UTOPIA"></div>
         <div class="product-content">
           <h3>UTOPIA</h3>
           <p>L/XL</p>
           <div class="price">GHC 130</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="UTOPIA" data-size="M/L" data-price="130">
+      <div class="product" data-id="utopia-8" data-name="UTOPIA" data-size="M/L" data-price="130" data-image="dress8.jpg">
         <div class="imgwrap"><img src="dress8.jpg" alt="UTOPIA"></div>
         <div class="product-content">
           <h3>UTOPIA</h3>
           <p>M/L</p>
           <div class="price">GHC 130</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="UTOPIA" data-size="M/L/XL" data-price="130">
+      <div class="product" data-id="utopia-9" data-name="UTOPIA" data-size="M/L/XL" data-price="130" data-image="dress9.jpg">
         <div class="imgwrap"><img src="dress9.jpg" alt="UTOPIA"></div>
         <div class="product-content">
           <h3>UTOPIA</h3>
           <p>M/L/XL</p>
           <div class="price">GHC 130</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="UTOPIA" data-size="L/XL" data-price="130">
+      <div class="product" data-id="utopia-10" data-name="UTOPIA" data-size="L/XL" data-price="130" data-image="dress10.jpg">
         <div class="imgwrap"><img src="dress10.jpg" alt="UTOPIA"></div>
         <div class="product-content">
           <h3>UTOPIA</h3>
           <p>L/XL</p>
           <div class="price">GHC 130</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="PALM ANGELS TOP" data-size="XL" data-price="120">
+      <div class="product" data-id="palm-angels-11" data-name="PALM ANGELS TOP" data-size="XL" data-price="120" data-image="dress11.jpg">
         <div class="imgwrap"><img src="dress11.jpg" alt="PALM ANGELS TOP"></div>
         <div class="product-content">
           <h3>PALM ANGELS TOP</h3>
           <p>XL</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
-      <div class="product" data-name="BILLIONAIRE BOYS CLUB TOP" data-size="L" data-price="120">
+      <div class="product" data-id="bbc-12" data-name="BILLIONAIRE BOYS CLUB TOP" data-size="L" data-price="120" data-image="dress12.jpg">
         <div class="imgwrap"><img src="dress12.jpg" alt="BILLIONAIRE BOYS CLUB TOP"></div>
         <div class="product-content">
           <h3>BILLIONAIRE BOYS CLUB TOP</h3>
           <p>L</p>
           <div class="price">GHC 120</div>
-          <a class="whatsapp-btn" target="_blank" href="#" onclick="return waBuy(this)">WhatsApp to Buy</a>
+          <div class="actions">
+            <a class="btn btn-wa" target="_blank" href="#" onclick="return waSingleBuy(this)">WhatsApp</a>
+            <button class="btn btn-cart" type="button" onclick="addToCartFromCard(this)">Add to Cart</button>
+          </div>
         </div>
       </div>
 
@@ -377,9 +673,13 @@
   <!-- Contact -->
   <section id="contact">
     <h2>Contact</h2>
+    <div class="section-sub">Orders and delivery support.</div>
+
     <div class="contact">
-      <a href="https://wa.me/233547706620" target="_blank">WhatsApp: 0547706620</a>
+      <a href="https://wa.me/233547706620" target="_blank">WhatsApp Orders: 0547706620</a>
+      <a href="tel:+233547706620">Call: +233 54 770 6620</a>
       <a href="https://www.tiktok.com/@the.closetgh" target="_blank">TikTok: @the.closetgh</a>
+      <a href="#" onclick="return false;">Delivery Option: Yango or Bolt (customer choice)</a>
     </div>
   </section>
 
@@ -388,27 +688,248 @@
     <p>© 2026 THE CLOSET</p>
   </footer>
 
+  <!-- Cart Overlay + Drawer -->
+  <div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-header">
+      <h3>Your Cart</h3>
+      <button class="close-btn" type="button" onclick="closeCart()">Close</button>
+    </div>
+
+    <div class="drawer-body" id="cartBody">
+      <!-- cart items injected here -->
+    </div>
+
+    <div class="drawer-footer">
+      <div class="totals">
+        <span>Total</span>
+        <span id="cartTotal">GHC 0</span>
+      </div>
+
+      <div class="note">
+        Checkout is via WhatsApp. If you choose delivery, we can arrange it via <strong>Yango</strong> or <strong>Bolt</strong>.
+      </div>
+
+      <div class="checkout-row">
+        <button class="btn btn-secondary" type="button" onclick="clearCart()">Clear</button>
+        <a class="btn btn-wa" id="checkoutBtn" target="_blank" href="#" onclick="return waCheckout()">Checkout</a>
+      </div>
+    </div>
+  </aside>
+
   <script>
-    // Builds a correct WhatsApp message for each product (no more wrong prices)
-    function waBuy(anchorEl){
+    const WHATSAPP_E164 = "233547706620"; // 0547706620
+
+    // --- Cart State (LocalStorage) ---
+    const CART_KEY = "thecloset_cart_v1";
+    let cart = loadCart(); // { id: {id,name,size,price,image,qty} }
+
+    function loadCart(){
+      try{
+        const raw = localStorage.getItem(CART_KEY);
+        if(!raw) return {};
+        const parsed = JSON.parse(raw);
+        if(parsed && typeof parsed === "object") return parsed;
+        return {};
+      }catch(e){
+        return {};
+      }
+    }
+
+    function saveCart(){
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    }
+
+    function cartCount(){
+      return Object.values(cart).reduce((sum, it) => sum + (it.qty || 0), 0);
+    }
+
+    function cartTotal(){
+      return Object.values(cart).reduce((sum, it) => sum + (Number(it.price)||0) * (it.qty||0), 0);
+    }
+
+    function formatGHC(n){
+      const num = Number(n) || 0;
+      return "GHC " + num.toFixed(0);
+    }
+
+    function syncUI(){
+      document.getElementById("cartCount").textContent = cartCount();
+      document.getElementById("cartTotal").textContent = formatGHC(cartTotal());
+      renderCart();
+    }
+
+    // --- Add to cart from product card ---
+    function addToCartFromCard(btn){
+      const card = btn.closest(".product");
+      const item = readProductCard(card);
+      addToCart(item);
+      openCart();
+    }
+
+    function readProductCard(card){
+      return {
+        id: (card.dataset.id || "").trim(),
+        name: (card.dataset.name || "Item").trim(),
+        size: (card.dataset.size || "N/A").trim(),
+        price: Number((card.dataset.price || "0").trim()),
+        image: (card.dataset.image || "").trim()
+      };
+    }
+
+    function addToCart(item){
+      if(!item.id){
+        // fallback id (should not happen if you keep data-id)
+        item.id = (item.name + "|" + item.size + "|" + item.price).toLowerCase().replace(/\s+/g,"-");
+      }
+      if(cart[item.id]){
+        cart[item.id].qty += 1;
+      }else{
+        cart[item.id] = { ...item, qty: 1 };
+      }
+      saveCart();
+      syncUI();
+    }
+
+    function incQty(id){
+      if(!cart[id]) return;
+      cart[id].qty += 1;
+      saveCart();
+      syncUI();
+    }
+
+    function decQty(id){
+      if(!cart[id]) return;
+      cart[id].qty -= 1;
+      if(cart[id].qty <= 0) delete cart[id];
+      saveCart();
+      syncUI();
+    }
+
+    function removeItem(id){
+      if(!cart[id]) return;
+      delete cart[id];
+      saveCart();
+      syncUI();
+    }
+
+    function clearCart(){
+      cart = {};
+      saveCart();
+      syncUI();
+    }
+
+    // --- Drawer controls ---
+    function openCart(){
+      document.getElementById("overlay").classList.add("show");
+      document.getElementById("drawer").classList.add("show");
+      document.getElementById("drawer").setAttribute("aria-hidden","false");
+    }
+
+    function closeCart(){
+      document.getElementById("overlay").classList.remove("show");
+      document.getElementById("drawer").classList.remove("show");
+      document.getElementById("drawer").setAttribute("aria-hidden","true");
+    }
+
+    // --- Render cart ---
+    function renderCart(){
+      const body = document.getElementById("cartBody");
+      const items = Object.values(cart);
+
+      if(items.length === 0){
+        body.innerHTML = `<div class="cart-empty">Your cart is empty. Add items from the shop.</div>`;
+        return;
+      }
+
+      body.innerHTML = items.map(it => {
+        const lineTotal = (Number(it.price)||0) * (it.qty||0);
+        const safeName = escapeHtml(it.name);
+        const safeSize = escapeHtml(it.size);
+        const img = it.image ? `<img src="${escapeAttr(it.image)}" alt="${escapeAttr(it.name)}">` : "";
+        return `
+          <div class="cart-item">
+            <div class="thumb">${img}</div>
+            <div class="ci-main">
+              <div class="ci-title">${safeName}</div>
+              <div class="ci-sub">Size: ${safeSize} • ${formatGHC(it.price)} each</div>
+              <div class="ci-row">
+                <div class="qty" aria-label="Quantity controls">
+                  <button type="button" onclick="decQty('${escapeAttr(it.id)}')" aria-label="Decrease">−</button>
+                  <span>${it.qty}</span>
+                  <button type="button" onclick="incQty('${escapeAttr(it.id)}')" aria-label="Increase">+</button>
+                </div>
+                <div class="ci-price">${formatGHC(lineTotal)}</div>
+                <button class="remove" type="button" onclick="removeItem('${escapeAttr(it.id)}')">Remove</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // --- WhatsApp: single item ---
+    function waSingleBuy(anchorEl){
       const card = anchorEl.closest(".product");
-      const name = (card.dataset.name || "Item").trim();
-      const size = (card.dataset.size || "N/A").trim();
+      const name  = (card.dataset.name  || "Item").trim();
+      const size  = (card.dataset.size  || "N/A").trim();
       const price = (card.dataset.price || "").trim();
 
-      const phone = "233503674353";
       const msg =
-        `Hello THE CLOSET, I am interested in: ${name}. ` +
-        `Size: ${size}. ` +
-        (price ? `Price: GHC ${price}. ` : "") +
-        `Is it available?`;
+        `Hello THE CLOSET, I want to order:\n` +
+        `• Item: ${name}\n` +
+        `• Size: ${size}\n` +
+        (price ? `• Price: GHC ${price}\n` : "") +
+        `\nDelivery: If I choose delivery, please arrange via Yango or Bolt.\n` +
+        `Please confirm availability and next steps.`;
 
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      anchorEl.href = url;
+      anchorEl.href = `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(msg)}`;
       return true;
     }
+
+    // --- WhatsApp: checkout cart ---
+    function waCheckout(){
+      const items = Object.values(cart);
+      if(items.length === 0){
+        openCart();
+        return false;
+      }
+
+      const lines = items.map((it, idx) => {
+        const lineTotal = (Number(it.price)||0) * (it.qty||0);
+        return `${idx+1}) ${it.name} | Size: ${it.size} | Qty: ${it.qty} | ${formatGHC(lineTotal)}`;
+      });
+
+      const msg =
+        `Hello THE CLOSET, I would like to order the following items:\n\n` +
+        lines.join("\n") +
+        `\n\nTotal: ${formatGHC(cartTotal())}\n` +
+        `Delivery: If I choose delivery, please arrange via Yango or Bolt.\n` +
+        `Please confirm availability and next steps.`;
+
+      const url = `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(msg)}`;
+      document.getElementById("checkoutBtn").href = url;
+      return true;
+    }
+
+    // --- Safe escaping for injected HTML ---
+    function escapeHtml(str){
+      return String(str ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+    function escapeAttr(str){
+      // minimal attribute escaping
+      return escapeHtml(str).replaceAll("`","&#096;");
+    }
+
+    // init
+    syncUI();
   </script>
 
 </body>
 </html>
-
